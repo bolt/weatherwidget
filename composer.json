@@ -1,5 +1,5 @@
 {
-    "name": "bobdenotter/weatherwidget",
+    "name": "bolt/weatherwidget",
     "description": "🌤 A simple Dashboard Widget that displays the current weather. So you don't actually need to go outside or open the curtains.",
     "type": "bolt-extension",
     "license": "MIT",
@@ -20,6 +20,9 @@
         "psr-4": {
             "BobdenOtter\\WeatherWidget\\": "src/"
         }
+    },
+    "replace": {
+        "bobdenotter/weatherwidget": "*"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
