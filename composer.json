@@ -5,6 +5,9 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Bolt developers"
+        },
+        {
             "name": "Bob den Otter",
             "email": "bob@twokings.nl"
         }
@@ -18,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "BobdenOtter\\WeatherWidget\\": "src/"
+            "Bolt\\WeatherWidget\\": "src/"
         }
     },
     "replace": {
@@ -27,7 +30,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
-        "entrypoint": "BobdenOtter\\WeatherWidget\\Extension",
+        "entrypoint": "Bolt\\WeatherWidget\\Extension",
         "screenshots": [
             "screenshots/widget.png"
         ]
