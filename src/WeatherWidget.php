@@ -20,11 +20,17 @@ class WeatherWidget extends BaseWidget implements TwigAwareInterface, CacheAware
     use StopwatchTrait;
 
     protected $name = 'Weather Widget';
+
     protected $target = AdditionalTarget::WIDGET_BACK_DASHBOARD_ASIDE_TOP;
+
     protected $priority = 200;
+
     protected $template = '@weather-widget/weather.html.twig';
+
     protected $zone = RequestZone::BACKEND;
+
     protected $cacheDuration = 1800;
+
     protected $location = '';
 
     public function run(array $params = []): ?string
@@ -35,7 +41,9 @@ class WeatherWidget extends BaseWidget implements TwigAwareInterface, CacheAware
             return null;
         }
 
-        return parent::run(['weather' => $weather]);
+        return parent::run([
+            'weather' => $weather,
+        ]);
     }
 
     private function getWeather(): array
@@ -51,7 +59,7 @@ class WeatherWidget extends BaseWidget implements TwigAwareInterface, CacheAware
             $client = HttpClient::create();
             $result = $client->request('GET', $url, $curlOptions)->getContent();
             if (mb_substr_count($result, '|') === 9) {
-                $details = explode('|', trim($result));
+                $details = explode('|', mb_trim($result));
             }
         } catch (\Throwable $e) {
             dump($this->getName() . ' exception: ' . $e->getMessage());
