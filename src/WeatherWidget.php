@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Bolt\WeatherWidget;
 
+use Bolt\Extension\BaseExtension;
 use Bolt\Widget\BaseWidget;
 use Bolt\Widget\CacheAwareInterface;
 use Bolt\Widget\CacheTrait;
@@ -13,6 +14,7 @@ use Bolt\Widget\StopwatchAwareInterface;
 use Bolt\Widget\StopwatchTrait;
 use Bolt\Widget\TwigAwareInterface;
 use Symfony\Component\HttpClient\HttpClient;
+use Throwable;
 
 class WeatherWidget extends BaseWidget implements TwigAwareInterface, CacheAwareInterface, StopwatchAwareInterface
 {
@@ -31,8 +33,9 @@ class WeatherWidget extends BaseWidget implements TwigAwareInterface, CacheAware
 
     protected $cacheDuration = 1800;
 
-    protected $location = '';
-
+    /**
+     * @param array<string, mixed> $params
+     */
     public function run(array $params = []): ?string
     {
         $weather = $this->getWeather();
@@ -46,6 +49,9 @@ class WeatherWidget extends BaseWidget implements TwigAwareInterface, CacheAware
         ]);
     }
 
+    /**
+     * @return string[]
+     */
     private function getWeather(): array
     {
         $url = 'https://wttr.in/' . $this->getLocation() .  '?format=%c|%C|%h|%t|%w|%l|%m|%M|%p|%P';
@@ -61,7 +67,7 @@ class WeatherWidget extends BaseWidget implements TwigAwareInterface, CacheAware
             if (mb_substr_count($result, '|') === 9) {
                 $details = explode('|', mb_trim($result));
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             dump($this->getName() . ' exception: ' . $e->getMessage());
             // Do nothing, fall through to empty array
         }
@@ -71,7 +77,7 @@ class WeatherWidget extends BaseWidget implements TwigAwareInterface, CacheAware
 
     private function getLocation(): string
     {
-        if (! $this->extension) {
+        if (! $this->extension instanceof BaseExtension) {
             return '';
         }
 
