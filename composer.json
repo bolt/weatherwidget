@@ -43,7 +43,8 @@
     "config": {
         "allow-plugins": {
             "symfony/flex": false,
-            "drupol/composer-packages": false
+            "drupol/composer-packages": false,
+            "symfony/runtime": true
         }
     }
 }
